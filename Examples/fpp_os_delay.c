@@ -1,4 +1,9 @@
 
+/* Declare mutexes and semaphores */
+mutex_t my_mutex;
+sem_t my_semaphore;
+
+/* Task function 1 */
 void first_task(void *args) {
 	while (1)
 	{
@@ -15,23 +20,28 @@ void first_task(void *args) {
 	}
 }
 
+/* Task function 2 */
 void second_task(void *args) {
 	while (1)
 	{
-		printf("TASK 2 (priority 3)\n");
+		/* User code */
+
+		/* Non-blocking delay in user code, time units of ms */
 		rtosDelay(3);
+
+		/* Wait for semaphore */
+		wait(&my_semaphore);
+
+		/* Signal semaphore */
+		signal(&my_semaphore);
 	}
 }
 
-/* Declare mutexes and semaphores */
-mutex_t my_mutex;
-sem_t my_semaphore;
-
-int main(void) {
-
-	/* Initialize mutexes and semaphores */
+/* Required RTOS setup, must run initially */
+void RTOS_setup(void) {
+	/* Initialize mutexes and semaphores and set initial count */
 	mutex_init(&my_mutex);
-	semaphore_init(&lock1, 1);
+	semaphore_init(&my_semaphore, 1);
 
 	/* Initialize RTOS */
 	initialization();
