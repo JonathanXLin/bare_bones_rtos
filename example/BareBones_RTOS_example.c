@@ -1,3 +1,4 @@
+#include "BareBones_RTOS_Example.h"
 
 /* Declare mutexes and semaphores */
 mutex_t my_mutex;
@@ -13,10 +14,10 @@ void first_task(void *args) {
 		rtosDelay(3);
 
 		/* Acquire priority-inheritance mutex */
-		mutex_acquire(&mutex_lock);
+		mutex_acquire(&my_mutex);
 
 		/* Release priority-inheritance mutex */
-		mutex_release(&mutex_lock);
+		mutex_release(&my_mutex);
 	}
 }
 
